@@ -1,0 +1,5 @@
+*.pdf
+*.zip
+/.idea
+/__pycache__
+/venv
