@@ -18,19 +18,22 @@ class XOR:
 		self.and_perceptron = None
 
 	def create_perceptrons(self):
-		self.or_perceptron = Perceptron(2, bias=-1)
-		self.nand_perceptron = Perceptron(2, bias=-1)
-		self.and_perceptron = Perceptron(2,bias=-1)
+		self.or_perceptron = Perceptron(2, bias=-1.5,seeded_weights=[2,2])
+		self.nand_perceptron = Perceptron(2, bias=3.0005,seeded_weights=[-2,-2])
+		self.and_perceptron = Perceptron(2,bias=-3,seeded_weights=[2,2])
 		print("Working up to here")
 
 	def train_perceptrons(self):
 		iterations = 0
 
-		while iterations < 50:
-			self.or_perceptron.train(self.training_examples,self.or_target_labels,0.2)
-			self.nand_perceptron.train(self.training_examples,self.nand_target_labels,0.2)
+		while iterations < 1000:
+			#self.or_perceptron.train(self.training_examples,self.or_target_labels,0.2)
+			#self.nand_perceptron.train(self.training_examples,self.nand_target_labels,0.2)
 			self.and_perceptron.train(self.training_examples,self.and_target_labels,0.2)
 			iterations+=1
+
+		print("Final Weight")
+		print(self.and_perceptron.weights)
 
 	def construct_network(self):
 		print("Done")
@@ -46,7 +49,9 @@ class XOR:
 				user_input = input("Please enter two inputs: ").split()
 				x1 = float(user_input[0])
 				x2 = float(user_input[1])
-				print(str(x1) + "," + str(x2))
+				user_input = [x1,x2]
+				print(user_input)
+				print(self.and_perceptron.activate(user_input))
 			except ValueError:
 				print("Please enter a valid pair of numbers")
 

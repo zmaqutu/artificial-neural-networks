@@ -22,6 +22,7 @@ class Perceptron:
 	def activate(self, inputs: [float]) -> float:
 		
 		weighted_sum = sum([self.weights[i] * inputs[i] for i in range(self.num_inputs)])
+		#print(weighted_sum)
 
 		return 1.0 if weighted_sum + self.bias > 0 else 0.0
 
@@ -32,6 +33,8 @@ class Perceptron:
 
 	def learn(self, index: int, output: float, target_output: float, x: float, learning_rate: float):
 		self.weights[index] += learning_rate * (target_output - output) * x
+		#print(target_output)
+		#print(self.weights[index])
 
 	def train(self, examples: [[float]], labels: [float], learning_rate: float):
 		"""NOTE: This function will run the each input example[i] through the activate function and compare its output to the label labels[i].
