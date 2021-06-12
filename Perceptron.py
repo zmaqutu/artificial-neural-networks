@@ -15,7 +15,7 @@ class Perceptron:
 		self.weights = [random.random() for i in range(num_inputs)] if seeded_weights is None else [seeded_weights[i] for i in range(num_inputs)]
 		self.bias = bias
 		self.float_threshold = float_threshold
-		print(self.weights)
+		#print(self.weights)
 
 
 
