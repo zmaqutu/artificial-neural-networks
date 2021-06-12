@@ -24,14 +24,32 @@ class XOR:
 		print("Working up to here")
 
 	def train_perceptrons(self):
-		self.or_perceptron.train(self.training_examples,self.or_target_labels,0.2)
-		self.nand_perceptron.train(self.training_examples,self.nand_target_labels,0.2)
-		self.and_perceptron.train(self.training_examples,self.and_target_labels,0.2)
+		iterations = 0
+
+		while iterations < 50:
+			self.or_perceptron.train(self.training_examples,self.or_target_labels,0.2)
+			self.nand_perceptron.train(self.training_examples,self.nand_target_labels,0.2)
+			self.and_perceptron.train(self.training_examples,self.and_target_labels,0.2)
+			iterations+=1
+
+	def construct_network(self):
+		print("Done")
 
 	def start_XOR(self):
 		#create perceptrons set biases to -1 for now
 		self.create_perceptrons()
 		self.train_perceptrons()
+		print("Constructing Network")
+		self.construct_network()
+		while True:
+			try:
+				user_input = input("Please enter two inputs: ").split()
+				x1 = float(user_input[0])
+				x2 = float(user_input[1])
+				print(str(x1) + "," + str(x2))
+			except ValueError:
+				print("Please enter a valid pair of numbers")
+
 
 class driverClass:
 	def main():

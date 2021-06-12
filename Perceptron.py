@@ -15,6 +15,7 @@ class Perceptron:
 		self.weights = [random.random() for i in range(num_inputs)] if seeded_weights is None else [seeded_weights[i] for i in range(num_inputs)]
 		self.bias = bias
 		self.float_threshold = float_threshold
+		print(self.weights)
 
 
 
@@ -35,14 +36,10 @@ class Perceptron:
 	def train(self, examples: [[float]], labels: [float], learning_rate: float):
 		"""NOTE: This function will run the each input example[i] through the activate function and compare its output to the label labels[i].
 		if the output does not match, the perceptron learning rule is applied and each weight of the perceptron is modified in accordance with the rule."""
-
 		for i in range(len(examples)):
-
 			predicted_val = self.activate(examples[i])
-			
 			for w in range(self.num_inputs):
 				self.learn(w, predicted_val, labels[i], examples[i][w], learning_rate)
-
 
 	def validate(self, examples: [[float]], labels: [float], verbose: bool = False) -> float:
 		num_correct = 0.0
