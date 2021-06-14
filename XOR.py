@@ -40,6 +40,15 @@ class XOR:
 			input_2 = round(random.uniform(input2_range[0],input2_range[1]),2)
 			#print([input_1,input_2])
 			self.training_examples.append([input_1,input_2])
+			if input_1 > 0.75 and input_2 > 0.75:
+				self.and_target_labels.append(1)
+			else:
+				self.and_target_labels.append(0)
+
+			if input_1 > 0.75 or input_2 > 0.75:
+				self.or_target_labels.append(1)
+			else:
+				self.or_target_labels.append(0)
 			examples += 1
 
 	def train_perceptrons(self):
@@ -62,8 +71,11 @@ class XOR:
 		#create perceptrons set biases to -1 for now
 		self.create_perceptrons()
 		self.generate_training_examples()
-		for example in self.training_examples:
-			print(example)
+		print("There are " + str(len(self.training_examples)) + " examples")
+		print("There are " + str(len(self.and_target_labels)) + " AND training labels")
+		print("There are " + str(len(self.or_target_labels)) + " OR training labels")
+		for i in range(len(self.training_examples)):
+			print(str(self.training_examples[i]) + " " + str(self.and_target_labels[i]))
 		return
 		self.train_perceptrons()
 		print("Constructing Network")
