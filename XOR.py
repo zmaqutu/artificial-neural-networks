@@ -8,6 +8,10 @@ class XOR:
 								  [0.0,1.0],
 								  [1.0,0.0],
 								  [1.0,1.0]]
+		self.or_training_data = [[0,0],[0,1],[1,0],[1,1]]
+
+		self.or_target = [0,1,1,1]
+
 		self.not_training_examples = [[0],
 									  [1]]
 		self.not_target_labels = [1,0]
@@ -24,7 +28,7 @@ class XOR:
 
 	def create_perceptrons(self):
 		self.or_perceptron = Perceptron(2, bias=-1,float_threshold=0)
-		self.not_perceptron = Perceptron(1,bias =0.5,float_threshold=0)
+		self.not_perceptron = Perceptron(1,bias =1,float_threshold=0)
 		self.nand_perceptron = Perceptron(2, bias=3,float_threshold=0)
 		self.and_perceptron = Perceptron(2,bias=-3,float_threshold=0)
 		print("Working up to here")
@@ -38,6 +42,7 @@ class XOR:
 
 			input_1 = round(random.uniform(input1_range[0],input1_range[1]),2)
 			input_2 = round(random.uniform(input2_range[0],input2_range[1]),2)
+
 			#print([input_1,input_2])
 			self.training_examples.append([input_1,input_2])
 			if input_1 > 0.75 and input_2 > 0.75:
@@ -54,15 +59,15 @@ class XOR:
 	def train_perceptrons(self):
 		iterations = 0
 
-		while iterations < 100000:
-			self.or_perceptron.train(self.training_examples,self.or_target_labels,0.5)
-			self.not_perceptron.train(self.not_training_examples,self.not_target_labels,0.5)
-			self.nand_perceptron.train(self.training_examples,self.nand_target_labels,0.5)
-			self.and_perceptron.train(self.training_examples,self.and_target_labels,0.2)
+		while iterations < 1000:
+			#self.or_perceptron.train(self.or_training_data,self.or_target,0.7)
+			self.not_perceptron.train(self.not_training_examples,self.not_target_labels,0.2)
+			#self.nand_perceptron.train(self.training_examples,self.nand_target_labels,0.5)
+			self.and_perceptron.train(self.training_examples,self.and_target_labels,0.5)
 			iterations+=1
 
 		print("Final Weight")
-		print(self.or_perceptron.weights)
+		print(self.and_perceptron.weights)
 
 	def construct_network(self):
 		print("Done")
@@ -76,7 +81,7 @@ class XOR:
 		print("There are " + str(len(self.or_target_labels)) + " OR training labels")
 		for i in range(len(self.training_examples)):
 			print(str(self.training_examples[i]) + " " + str(self.and_target_labels[i]))
-		return
+
 		self.train_perceptrons()
 		print("Constructing Network")
 		self.construct_network()
@@ -93,15 +98,16 @@ class XOR:
 				print(user_input)
 				#or_output = self.or_perceptron.activate(user_input)
 				#print("Or Output = "+ str(or_output))
-				print("And Output")
-				print(self.and_perceptron.activate(user_input))
-				#nand_output = self.nand_perceptron.activate(user_input)
-				#print("Nand Output = " + str(nand_output))
-				#xor_output = self.and_perceptron.activate([or_output,nand_output])
-				#print("XOR Output")
-				#print(xor_output)
-				#print("Not Output")
-				#print(self.not_perceptron.activate([x1]))
+				print("AND Output")
+				layer_1 = self.not_perceptron.activate([self.and_perceptron.activate(user_input)])
+
+				hidden_layer_1 = self.not_perceptron.activate([self.and_perceptron.activate([x1,layer_1])])
+				hidden_layer_2 = self.not_perceptron.activate([self.and_perceptron.activate([layer_1,x2])])
+
+				xor_output = self.not_perceptron.activate([self.and_perceptron.activate([hidden_layer_1,hidden_layer_2])])
+
+				print("XOR")
+				print(xor_output)
 
 			except ValueError:
 				print("Please enter a valid pair of numbers")
