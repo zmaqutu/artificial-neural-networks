@@ -22,6 +22,9 @@ class Classifier:
 		self.input_layer_size = 28 * 28
 		self.hidden_layer1_size = 128
 		self.hidden_layer2_size = 64
+		self.loss_function = None
+		self.optimizer = None
+		self.criteria = nn.NLLLoss()
 
 
 	def define_transforms(self):
@@ -38,6 +41,7 @@ class Classifier:
 		print(images.shape)
 		#plt.imshow(images[0].numpy().squeeze(), cmap='gray_r')
 		print("DONE")
+		print(labels.shape)
 
 	def create_neural_network(self):
 		input_to_hidden1 = nn.Linear(self.input_layer_size,self.hidden_layer1_size)
@@ -49,11 +53,41 @@ class Classifier:
 											hidden2_to_output,nn.LogSoftmax(dim=1))
 		print(self.neural_network)
 
+	def define_loss_function(self):
+		images,labels = next(iter(self.data_loader))
+		images = images.view(images.shape[0],-1)
+
+		probabilities = self.neural_network(images)
+		self.loss_function = self.criteria(probabilities,labels)
+
+	def train_neural_net(self):
+		self.optimizer = optim.SGD(self.neural_network.parameters(),lr=0.003,momentum=0.9)
+
+		for epoch in range(self.epochs):
+			current_loss = 0
+			for images,labels in self.data_loader:
+				images = images.view(images.shape[0],-1)
+
+				self.optimizer.zero_grad()
+				output = self.neural_network(images)
+				self.loss_function = self.criteria(output,labels)
+
+				self.loss_function.backward()
+				self.optimizer.step()
+
+				current_loss = current_loss + self.loss_function.item()
+				print(self.neural_network[0].weight.grad)
+
 	def start_classification(self):
 		print(2)
 		self.define_transforms()
 		self.create_training_set()
 		self.create_neural_network()
+		self.define_loss_function()
+		print('Before backward pass: \n', self.neural_network[0].weight.grad)
+		self.loss_function.backward()
+		print('After backward pass: \n', self.neural_network[0].weight.grad)
+		self.train_neural_net()
 		print(self.file_path)
 
 class driverClass:
