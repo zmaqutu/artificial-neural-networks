@@ -5,9 +5,13 @@ from Perceptron import Perceptron
 class XOR:
 	def __init__(self):
 		self.training_examples = [[0.0,0.0],
-								  [0.0,1.0],
-								  [1.0,0.0],
-								  [1.0,1.0]]
+					 [0.0,1.0],
+					 [1.0,0.0],
+					 [1.0,1.0]]
+		
+		self.and_target_labels = [0,0,0,1]
+		
+		
 		self.or_training_data = [[0,0],[0,1],[1,0],[1,1]]
 
 		self.or_target = [0,1,1,1]
