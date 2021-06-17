@@ -31,7 +31,6 @@ class XOR:
 		self.not_perceptron = Perceptron(1,bias =1,float_threshold=0)
 		self.nand_perceptron = Perceptron(2, bias=3,float_threshold=0)
 		self.and_perceptron = Perceptron(2,bias=-3,float_threshold=0)
-		print("Working up to here")
 
 	def generate_training_examples(self):
 		examples = 0
@@ -66,8 +65,6 @@ class XOR:
 			self.and_perceptron.train(self.training_examples,self.and_target_labels,0.5)
 			iterations+=1
 
-		print("Final Weight")
-		print(self.and_perceptron.weights)
 
 	def construct_network(self):
 		print("Done")
@@ -76,11 +73,6 @@ class XOR:
 		#create perceptrons set biases to -1 for now
 		self.create_perceptrons()
 		self.generate_training_examples()
-		print("There are " + str(len(self.training_examples)) + " examples")
-		print("There are " + str(len(self.and_target_labels)) + " AND training labels")
-		print("There are " + str(len(self.or_target_labels)) + " OR training labels")
-		for i in range(len(self.training_examples)):
-			print(str(self.training_examples[i]) + " " + str(self.and_target_labels[i]))
 
 		self.train_perceptrons()
 		print("Constructing Network")
@@ -95,10 +87,6 @@ class XOR:
 				x2 = float(user_input[1])
 
 				user_input = [x1,x2]
-				print(user_input)
-				#or_output = self.or_perceptron.activate(user_input)
-				#print("Or Output = "+ str(or_output))
-				print("AND Output")
 				layer_1 = self.not_perceptron.activate([self.and_perceptron.activate(user_input)])
 
 				hidden_layer_1 = self.not_perceptron.activate([self.and_perceptron.activate([x1,layer_1])])
@@ -106,8 +94,7 @@ class XOR:
 
 				xor_output = self.not_perceptron.activate([self.and_perceptron.activate([hidden_layer_1,hidden_layer_2])])
 
-				print("XOR")
-				print(xor_output)
+				print("XOR Gate: " + str(xor_output))
 
 			except ValueError:
 				print("Please enter a valid pair of numbers")
