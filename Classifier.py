@@ -5,6 +5,9 @@ from torch import nn, optim
 from torchvision import datasets, transforms
 import random
 import sys
+from PIL import Image
+from torchvision.transforms import ToTensor
+from torch.autograd import Variable
 import matplotlib.pyplot as plt
 from Perceptron import Perceptron
 
@@ -25,6 +28,7 @@ class Classifier:
 		self.loss_function = None
 		self.optimizer = None
 		self.criteria = nn.NLLLoss()
+		self.user_input_loader = None
 
 
 	def define_transforms(self):
@@ -63,7 +67,7 @@ class Classifier:
 	def train_neural_net(self):
 		self.optimizer = optim.SGD(self.neural_network.parameters(),lr=0.003,momentum=0.9)
 
-		for epoch in range(self.epochs):
+		for epoch in range(1):
 			current_loss = 0
 			for images,labels in self.data_loader:
 				images = images.view(images.shape[0],-1)
@@ -76,7 +80,24 @@ class Classifier:
 				self.optimizer.step()
 
 				current_loss = current_loss + self.loss_function.item()
-				print(self.neural_network[0].weight.grad)
+		#print(self.neural_network[0].weight.grad)
+
+	def load_image(self, image_name):
+		image = Image.open(image_name)
+		image = self.transform(image).float()
+		image = image.unsqueeze_(0)
+		image = Variable(image)
+		return image
+
+	def classify_image(self):
+		#images,labels = next(iter())
+		while True:
+			file_path = input("Please enter a file path: ")
+			if file_path == "EXIT":
+				break
+			image = self.load_image(file_path)
+			predicted_output  = torch.argmax(self.neural_network(image.view(-1,784)))
+			print(predicted_output)
 
 	def start_classification(self):
 		print(2)
@@ -88,6 +109,7 @@ class Classifier:
 		self.loss_function.backward()
 		print('After backward pass: \n', self.neural_network[0].weight.grad)
 		self.train_neural_net()
+		self.classify_image()
 		print(self.file_path)
 
 class driverClass:
