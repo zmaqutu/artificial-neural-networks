@@ -13,10 +13,9 @@ from Perceptron import Perceptron
 
 class Classifier:
 	def __init__(self):
-		self.epochs = 10
+		self.epochs = 1
 		self.number_of_classes = 10
 		self.learning_rate = 0.01
-		self.file_path = sys.argv[1]
 		self.transform = None
 		self.training_set = None
 		self.validation_set = None
@@ -33,7 +32,7 @@ class Classifier:
 
 	def define_transforms(self):
 		self.transform = transforms.Compose([transforms.Grayscale(num_output_channels=1),transforms.ToTensor(),])
-		print(self.transform)
+		#print(self.transform)
 
 	def create_training_set(self):
 		self.training_set = torchvision.datasets.ImageFolder(root="./trainingSet/trainingSet/",transform=self.transform)
@@ -42,10 +41,10 @@ class Classifier:
 		data_iterator = iter(self.data_loader)
 		images,labels = data_iterator.next()
 
-		print(images.shape)
-		#plt.imshow(images[0].numpy().squeeze(), cmap='gray_r')
-		print("DONE")
-		print(labels.shape)
+		#print(images.shape)
+		plt.imshow(images[0].numpy().squeeze(), cmap='gray_r')
+		#print("DONE")
+		#print(labels.shape)
 
 	def create_neural_network(self):
 		input_to_hidden1 = nn.Linear(self.input_layer_size,self.hidden_layer1_size)
@@ -55,7 +54,7 @@ class Classifier:
 		self.neural_network = nn.Sequential(input_to_hidden1,nn.ReLU(),
 											hidden1_to_hidden2,nn.ReLU(),
 											hidden2_to_output,nn.LogSoftmax(dim=1))
-		print(self.neural_network)
+		#print(self.neural_network)
 
 	def define_loss_function(self):
 		images,labels = next(iter(self.data_loader))
@@ -65,9 +64,10 @@ class Classifier:
 		self.loss_function = self.criteria(probabilities,labels)
 
 	def train_neural_net(self):
+		print("Standby...training neural network...")
 		self.optimizer = optim.SGD(self.neural_network.parameters(),lr=0.003,momentum=0.9)
 
-		for epoch in range(1):
+		for epoch in range(self.epochs):
 			current_loss = 0
 			for images,labels in self.data_loader:
 				images = images.view(images.shape[0],-1)
@@ -80,7 +80,7 @@ class Classifier:
 				self.optimizer.step()
 
 				current_loss = current_loss + self.loss_function.item()
-		#print(self.neural_network[0].weight.grad)
+		print("Done")
 
 	def load_image(self, image_name):
 		image = Image.open(image_name)
@@ -93,24 +93,22 @@ class Classifier:
 		#images,labels = next(iter())
 		while True:
 			file_path = input("Please enter a file path: ")
-			if file_path == "EXIT":
+			if file_path == "exit":
 				break
 			image = self.load_image(file_path)
 			predicted_output  = torch.argmax(self.neural_network(image.view(-1,784)))
-			print(predicted_output)
+			predicted_output = str(predicted_output)
+			print("Classifier: " + predicted_output[7])
 
 	def start_classification(self):
-		print(2)
+		print("Pytorch output...")
+		print("...")
 		self.define_transforms()
 		self.create_training_set()
 		self.create_neural_network()
 		self.define_loss_function()
-		print('Before backward pass: \n', self.neural_network[0].weight.grad)
-		self.loss_function.backward()
-		print('After backward pass: \n', self.neural_network[0].weight.grad)
 		self.train_neural_net()
 		self.classify_image()
-		print(self.file_path)
 
 class driverClass:
 	def main():
