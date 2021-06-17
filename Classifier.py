@@ -8,7 +8,7 @@ import sys
 from PIL import Image
 from torchvision.transforms import ToTensor
 from torch.autograd import Variable
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from Perceptron import Perceptron
 
 class Classifier:
@@ -42,7 +42,7 @@ class Classifier:
 		images,labels = data_iterator.next()
 
 		#print(images.shape)
-		plt.imshow(images[0].numpy().squeeze(), cmap='gray_r')
+		#plt.imshow(images[0].numpy().squeeze(), cmap='gray_r')
 		#print("DONE")
 		#print(labels.shape)
 
