@@ -1,4 +1,4 @@
-<h1 align="center"> Artificial Neural Networks - The XOR Problem</h1>
+<h1 align="center"> Artificial Neural Networks - The XOR Problem/ Classifying Handwritten Digits</h1>
 
 <div align="center" >
   <img src="https://img.shields.io/badge/made%20by-Zongo%20Maqutu-blue?style=for-the-badge&labelColor=20232a" />
@@ -12,17 +12,9 @@
 * [Libraries Used](#libraries)
 * [Future Scope](#FutureScope)
 ## Description 
-*This is an implementation of two fundamental reinforcement learinging algorighms: Value Iteration and Q-Learning. The numpy library is also used to 
-generate random choices with given probabilites simulating explorative and exploitative behaviour.*
+*These two programs perform different tasks. The first program (XOR.py) trains a multi-layered network of perceptrons to make accurate output predictions given noisy input data corresponding to 1 or 0 (on or off).*
 
-## Value Iteration Demo
-Here our agent is fully aware of its surroundings, acting in a fully observable Markov Decision Process (MDP) 
-<img src="./output/value_iteration.gif" width="100%">
-
-## Q-Learning Demo
-Here our agent knows very little about its surroundings. In this algorithm the agent explores the gird world in a series of both random actions (explorative behaviour) and greedy actions (exploitative behaviour) until some path can be found.
-The agent acts in a partially observable Markov Decision Process
-<img src="./output/q_learning.gif" width="100%">
+*The second program (Classifier.py) creates and trains a neural network to accurately classify a handwritten digit. Digits are passed in as JPG images of 28x28 pixels*
   
 
 ## Project setup  
@@ -41,21 +33,18 @@ Next we need to activate our virual environment. To do this run the following co
 source venv/bin/activate       // Activates our virtual environment
 ```
 
-Now we can run either one of our algorithms. Run these commands and you will be provided with sample inputs to your file for each of the 
+Now we can run either one of our programs (they are in the same directory). First make sure that your training data is pasted in the right folder. Make sure that the folder trainingSet/trainingSet/ is present and has all labeled inputs. Once that is done, run these commands and you will be provided with sample inputs to your file for each of the 
 two algorithms
 
 ```
-make runSampleValueIteration       // runs ValueIteration.py with sample arguments
+python XOR.py       // runs the XOR.py program
 ```
 or
 ```
-make runSampleQLearning           //runs QLearning.py with sample arguments
+python Classifier.py           //runs the image classifier
 ```
 Alternatively you can run each program program with your own arguments that follow the pattern 
-```
-python3 QLearning.py [-start startx starty] [-end endx endy] [-k numberofMines] [-gamma gamma]")
-			                [-epochs epochs] [-learningRate learningRate]
-```
+
 To exit the virtual environment run:
 
 ```
@@ -63,6 +52,9 @@ deactivate       // runs the program
 ```
 ### Libraries Used
 * Numpy
+* Pytorch
+* Torchvision
+* PIL
 
 
 ## Future Scope
@@ -72,6 +64,7 @@ https://github.com/zmaqutu/3D-Pathfinding-Visualizer
 * Use JavaScript/React to create better animations
 
 <p align="center">Made with ❤️ with Pycharm and vim</p>
+
 
 
 
