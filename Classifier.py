@@ -13,7 +13,7 @@ from Perceptron import Perceptron
 
 class Classifier:
 	def __init__(self):
-		self.epochs = 1
+		self.epochs = 10
 		self.number_of_classes = 10
 		self.learning_rate = 0.01
 		self.transform = None
