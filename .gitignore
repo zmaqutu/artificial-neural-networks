@@ -1,7 +1,6 @@
 *.pdf
 *.txt
 *.zip
-*.jpg
 /.idea
 /__pycache__
 /venv
